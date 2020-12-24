@@ -6,7 +6,7 @@ import java.awt.Graphics;
  * Animated sprite, renders the frame depending on the time of requesting the
  * draw.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class AnimatedSprite implements Sprite {
 
@@ -76,7 +76,7 @@ public class AnimatedSprite implements Sprite {
 			boolean isAnimating) {
 		assert frames.length > 0;
 
-		this.animationFrames = frames;
+		this.animationFrames = frames.clone();
 		this.animationDelay = delay;
 		this.looping = loop;
 		this.animating = isAnimating;

@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 /**
  * Utility to load {@link Sprite}s.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class SpriteStore {
 	
@@ -21,6 +21,9 @@ public class SpriteStore {
 	 */
 	private Map<String, Sprite> spriteMap;
 	
+	/**
+	 * Create a new sprite store.
+	 */
 	public SpriteStore() {
 		spriteMap = new HashMap<String, Sprite>();
 	}
@@ -55,13 +58,14 @@ public class SpriteStore {
 	 *             When the resource could not be loaded.
 	 */
 	private Sprite loadSpriteFromResource(String resource) throws IOException {
-		InputStream input = SpriteStore.class.getResourceAsStream(resource);
-		if (input == null) {
-			throw new IOException("Unable to load " + resource
+		try (InputStream input = SpriteStore.class.getResourceAsStream(resource)) {
+			if (input == null) {
+				throw new IOException("Unable to load " + resource
 					+ ", resource does not exist.");
+			}
+			BufferedImage image = ImageIO.read(input);
+			return new ImageSprite(image);
 		}
-		BufferedImage image = ImageIO.read(input);
-		return new ImageSprite(image);
 	}
 
 	/**

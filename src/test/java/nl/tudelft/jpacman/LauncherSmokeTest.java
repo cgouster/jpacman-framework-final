@@ -16,7 +16,7 @@ import org.junit.Test;
  * and attempting to make a number of typical moves.
  *
  * This is <strong>not</strong> a <em>unit</em> test -- it is an end-to-end test
- * trying to execute as much behavior as possible directly from the
+ * trying to execute a large portion of the system's behavior directly from the
  * user interface. It uses the actual sprites and monster AI, and hence
  * has little control over what is happening in the game.
  *
@@ -26,25 +26,36 @@ import org.junit.Test;
  *
  * @author Arie van Deursen, March 2014.
  */
+@SuppressWarnings("magicnumber")
 public class LauncherSmokeTest {
 	
-	Launcher launcher;
+	private Launcher launcher;
 	
+	/**
+	 * Launch the user interface.
+	 */
 	@Before
 	public void setUpPacman() {
 		launcher = new Launcher();
 		launcher.launch();
 	}
 	
+	/**
+	 * Quit the user interface when we're done.
+	 */
 	@After
 	public void tearDown() {
 		launcher.dispose();
 	}
 
     /**
-     * Launch the game, and imitate what would happen
-     * in a typical game.
+     * Launch the game, and imitate what would happen in a typical game.
+     * The test is only a smoke test, and not a focused small test.
+     * Therefore it is OK that the method is a bit too long.
+     * 
+     * @throws InterruptedException Since we're sleeping in this test.
      */
+    @SuppressWarnings("methodlength")
     @Test
     public void smokeTest() throws InterruptedException {
         Game game = launcher.getGame();        

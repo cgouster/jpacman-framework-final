@@ -10,7 +10,7 @@ import nl.tudelft.jpacman.sprite.Sprite;
 /**
  * A player operated unit in our game.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class Player extends Unit {
 
@@ -36,9 +36,13 @@ public class Player extends Unit {
 
 	/**
 	 * Creates a new player with a score of 0 points.
+	 * 
+	 * @param spriteMap
+	 *            A map containing a sprite for this player for every direction.
+	 * @param deathAnimation
+	 *            The sprite to be shown when this player dies.
 	 */
-	Player(Map<Direction, Sprite> spriteMap,
-			AnimatedSprite deathAnimation) {
+	protected Player(Map<Direction, Sprite> spriteMap, AnimatedSprite deathAnimation) {
 		this.score = 0;
 		this.alive = true;
 		this.sprites = spriteMap;

@@ -17,17 +17,17 @@ Thus, each scenario is of the form:
 **Narrative**
 
     As a [role]
-    I want [feature]
+     I want [feature]
     So that [benefit]
 
 **Acceptance Criteria,** _presented as scenarios of the form:_
 
     Scenario 1: Title
     Given [context]
-      And [some more context]...
+     and  [some more context]...
     When  [event] 
     Then  [outcome]
-      And [another outcome]...
+     and  [another outcome]...
 ----
 
 
@@ -46,7 +46,7 @@ The JPacman game is played on a rectangular board.  A square on the board can be
 
 ```
 As a player
-I want to start the game
+ I want to start the game
 so that I can actually play
  
 Scenario S1.1: Start.
@@ -61,7 +61,7 @@ Then  the game should start.
 ```
 As a player, 
  I want to move my Pacman arround on the board;
- So that I can earn all points and win the game.
+So that I can earn all points and win the game.
 
 Scenario S2.1: The player consumes
 Given the game has started,
@@ -83,7 +83,7 @@ Given the game has started,
  and  my Pacman is next to a cell containing a ghost;
 When  I press an arrow key towards that square;
 Then  my Pacman dies,
-  and the game is over.
+ and  the game is over.
   
 Scenario S2.4: The move fails
 Given the game has started,
@@ -92,8 +92,8 @@ When  I press an arrow key towards that cell;
 Then  the move is not conducted.
 
 Scenario S2.5: Player wins, extends S2.2
-When I have eaten the last pellet;
-Then I win the game.
+When  I have eaten the last pellet;
+Then  I win the game.
 ```
 
 
@@ -109,18 +109,18 @@ Given the game has started,
 When  a tick event occurs;
 Then  the ghost can move to that cell.
 
-Scenario S3.2: The ghost moves over food.
+Scenario S3.2: The ghost moves over a square with a pellet.
 Given the game has started,
- and  a ghost is next to a cell containing food;
+ and  a ghost is next to a cell containing a pellet;
 When  a tick event occurs;
-Then  the ghost can move to the food cell,
- and  the food on that cell is not visible anymore.
+Then  the ghost can move to the cell with the pellet,
+ and  the pellet on that cell is not visible anymore.
 
-Scenario S3.3: The ghost leaves a food cell.
-Given a ghost is on a food cell (see S3.2);
+Scenario S3.3: The ghost leaves a cell with a pellet.
+Given a ghost is on a cell with a pellet (see S3.2);
 When  a tick even occurs;
-Then  the ghost can move to away from the food cell,
- and  the food on that cell is is visible again.
+Then  the ghost can move away from the cell with the pellet,
+ and  the pellet on that cell is is visible again.
 
 Scenario S3.4: The player dies.
 Given the game has started,
@@ -130,12 +130,12 @@ Then  the ghost can move to the player,
  and  the game is over.
 ```
 
-#### Story 4: Suspsend the Game
+#### Story 4: Suspend the Game
 
 ```
 As a player,
  I want to be able to suspend the game;
-So that I can pause and do something else.
+So  that I can pause and do something else.
 
 Scenario S4.1: Suspend the game.
 Given the game has started;
@@ -145,7 +145,7 @@ Then  all moves from ghosts and the player are suspended.
 Scenario S4.2: Restart the game.
 Given the game is suspended;
 When  the player hits the "Start" button;
- Then the game is resumed.
+Then  the game is resumed.
 ```
 
 3. User Interface

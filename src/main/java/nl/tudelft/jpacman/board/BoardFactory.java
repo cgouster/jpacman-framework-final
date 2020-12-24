@@ -7,7 +7,7 @@ import nl.tudelft.jpacman.sprite.Sprite;
  * A factory that creates {@link Board} objects from 2-dimensional arrays of
  * {@link Square}s.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class BoardFactory {
 
@@ -78,9 +78,9 @@ public class BoardFactory {
 	/**
 	 * A wall is a square that is inaccessible to anyone.
 	 * 
-	 * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+	 * @author Jeroen Roosen 
 	 */
-	private class Wall extends Square {
+	private static final class Wall extends Square {
 
 		/**
 		 * The background for this square.
@@ -111,9 +111,9 @@ public class BoardFactory {
 	/**
 	 * A wall is a square that is accessible to anyone.
 	 * 
-	 * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+	 * @author Jeroen Roosen 
 	 */
-	private class Ground extends Square {
+	private static final class Ground extends Square {
 
 		/**
 		 * The background for this square.

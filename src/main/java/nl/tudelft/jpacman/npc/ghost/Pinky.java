@@ -10,9 +10,6 @@ import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.sprite.Sprite;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * <p>
  * An implementation of the classic Pac-Man ghost Speedy.
@@ -40,14 +37,14 @@ import org.slf4j.LoggerFactory;
  * </p>
  * <p>
  * <i>Note: In the original arcade series, the ghosts' genders are unspecified
- * and assumed to be male. In 1999, the USA division of Namco & Namco Hometech
+ * and assumed to be male. In 1999, the USA division of Namco and Namco Hometech
  * developed the Pac-Man World series and declared Pinky to be female.</i>
  * </p>
  * <p>
  * Source: http://strategywiki.org/wiki/Pac-Man/Getting_Started
  * </p>
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  * 
  */
 public class Pinky extends Ghost {
@@ -64,11 +61,6 @@ public class Pinky extends Ghost {
 	 * The base movement interval.
 	 */
 	private static final int MOVE_INTERVAL = 200;
-
-	/**
-	 * The log.
-	 */
-	private final static Logger LOG = LoggerFactory.getLogger(Pinky.class);
 
 	/**
 	 * Creates a new "Pinky", a.k.a. "Speedy".
@@ -101,39 +93,25 @@ public class Pinky extends Ghost {
 	 */
 	@Override
 	public Direction nextMove() {
-		long t0 = System.currentTimeMillis();
 		Unit player = Navigation.findNearest(Player.class, getSquare());
 		if (player == null) {
-			LOG.debug("No player found, will move around randomly.");
 			Direction d = randomMove();
-			LOG.debug("Moving {} (calculated in {}ms)", d,
-					System.currentTimeMillis() - t0);
 			return d;
 		}
-		LOG.debug("Player found!");
 
 		Direction targetDirection = player.getDirection();
 		Square destination = player.getSquare();
 		for (int i = 0; i < SQUARES_AHEAD; i++) {
 			destination = destination.getSquareAt(targetDirection);
 		}
-		LOG.debug("Calculated destination: {} squares {} of Player.",
-				SQUARES_AHEAD, targetDirection);
 
 		List<Direction> path = Navigation.shortestPath(getSquare(),
 				destination, this);
 		if (path != null && !path.isEmpty()) {
 			Direction d = path.get(0);
-			LOG.debug(
-					"Found path to destination. Moving {} (calculated in {}ms)",
-					d, System.currentTimeMillis() - t0);
 			return d;
 		}
-		LOG.debug("Could not find path to destination, will move around randomly.");
 		Direction d = randomMove();
-		LOG.debug("Moving {} (calculated in {}ms)", d,
-				System.currentTimeMillis() - t0);
 		return d;
 	}
-
 }

@@ -5,7 +5,7 @@ import nl.tudelft.jpacman.sprite.PacManSprites;
 /**
  * Factory that creates Players.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class PlayerFactory {
 
@@ -30,7 +30,11 @@ public class PlayerFactory {
 	 * @return A new player.
 	 */
 	public Player createPacMan() {
-		return new Player(sprites.getPacmanSprites(),
-				sprites.getPacManDeathAnimation());
+		return new Player(getSprites().getPacmanSprites(),
+				getSprites().getPacManDeathAnimation());
+	}
+
+	protected PacManSprites getSprites() {
+		return sprites;
 	}
 }

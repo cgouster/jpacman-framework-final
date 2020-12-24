@@ -5,7 +5,7 @@ import nl.tudelft.jpacman.sprite.Sprite;
 /**
  * A unit that can be placed on a {@link Square}.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public abstract class Unit {
 
@@ -79,6 +79,7 @@ public abstract class Unit {
 			square.remove(this);
 			square = null;
 		}
+		assert invariant();
 	}
 
 	/**

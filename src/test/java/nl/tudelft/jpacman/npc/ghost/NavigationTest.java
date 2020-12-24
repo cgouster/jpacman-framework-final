@@ -27,9 +27,10 @@ import com.google.common.collect.Lists;
 /**
  * Tests the various methods provided by the {@link Navigation} class.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  * 
  */
+@SuppressWarnings({"magicnumber", "PMD.AvoidDuplicateLiterals"})
 public class NavigationTest {
 
 	/**
@@ -41,7 +42,7 @@ public class NavigationTest {
 	 * Set up the map parser.
 	 */
 	@Before
-	public void setup() {
+	public void setUp() {
 		PacManSprites sprites = new PacManSprites();
 		parser = new MapParser(new LevelFactory(sprites, new GhostFactory(
 				sprites)), new BoardFactory(sprites));
@@ -145,6 +146,12 @@ public class NavigationTest {
 		assertNull(unit);
 	}
 	
+	/**
+	 * Verifies that there is ghost on the default board
+	 * next to cell [1, 1].
+	 *  
+	 * @throws IOException if board reading fails.
+	 */
 	@Test
 	public void testFullSizedLevel() throws IOException {
 		Board b = parser.parseMap(getClass().getResourceAsStream("/board.txt")).getBoard();

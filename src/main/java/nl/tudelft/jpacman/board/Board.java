@@ -3,7 +3,7 @@ package nl.tudelft.jpacman.board;
 /**
  * A top-down view of a matrix of {@link Square}s.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class Board {
 
@@ -22,6 +22,22 @@ public class Board {
 	Board(Square[][] grid) {
 		assert grid != null;
 		this.board = grid;
+		assert invariant() : "Initial grid cannot contain null squares";
+	}
+	
+	/**
+	 * Whatever happens, the squares on the board can't be null.
+	 * @return false if any square on the board is null.
+	 */
+	public boolean invariant() {
+		for (int x = 0; x < board.length; x++) {
+			for (int y = 0; y < board[x].length; y++) {
+				if (board[x][y] == null) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -49,11 +65,13 @@ public class Board {
 	 *            The <code>x</code> position (column) of the requested square.
 	 * @param y
 	 *            The <code>y</code> position (row) of the requested square.
-	 * @return The square at the given <code>x,y</code> position.
+	 * @return The square at the given <code>x,y</code> position (never null).
 	 */
 	public Square squareAt(int x, int y) {
 		assert withinBorders(x, y);
-		return board[x][y];
+		Square result = board[x][y];
+		assert result != null : "Follows from invariant.";
+		return result;
 	}
 
 	/**

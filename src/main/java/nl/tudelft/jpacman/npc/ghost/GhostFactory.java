@@ -5,7 +5,7 @@ import nl.tudelft.jpacman.sprite.PacManSprites;
 /**
  * Factory that creates ghosts.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class GhostFactory {
 
@@ -15,9 +15,9 @@ public class GhostFactory {
 	private final PacManSprites sprites;
 
 	/**
-	 * Creates a new ghost factory;
+	 * Creates a new ghost factory.
 	 * 
-	 * @param spriteStore
+	 * @param spriteStore The sprite provider.
 	 */
 	public GhostFactory(PacManSprites spriteStore) {
 		this.sprites = spriteStore;

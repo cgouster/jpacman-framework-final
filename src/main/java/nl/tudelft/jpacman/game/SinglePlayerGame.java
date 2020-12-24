@@ -11,7 +11,7 @@ import com.google.common.collect.ImmutableList;
 /**
  * A game with one player and a single level.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class SinglePlayerGame extends Game {
 
@@ -51,33 +51,4 @@ public class SinglePlayerGame extends Game {
 	public Level getLevel() {
 		return level;
 	}
-
-	/**
-	 * Moves the player one square to the north if possible.
-	 */
-	public void moveUp() {
-		move(player, Direction.NORTH);
-	}
-
-	/**
-	 * Moves the player one square to the south if possible.
-	 */
-	public void moveDown() {
-		move(player, Direction.SOUTH);
-	}
-
-	/**
-	 * Moves the player one square to the west if possible.
-	 */
-	public void moveLeft() {
-		move(player, Direction.WEST);
-	}
-
-	/**
-	 * Moves the player one square to the east if possible.
-	 */
-	public void moveRight() {
-		move(player, Direction.EAST);
-	}
-
 }

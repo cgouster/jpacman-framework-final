@@ -4,13 +4,14 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import nl.tudelft.jpacman.PacmanConfigurationException;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.npc.ghost.GhostColor;
 
 /**
  * Sprite Store containing the classic Pac-Man sprites.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class PacManSprites extends SpriteStore {
 
@@ -31,6 +32,11 @@ public class PacManSprites extends SpriteStore {
 	 */
 	private static final int PACMAN_ANIMATION_FRAMES = 4;
 
+	/**
+	 * The amount of frames in the pacman dying animation.
+	 */
+	private static final int PACMAN_DEATH_FRAMES = 11;
+	
 	/**
 	 * The amount of frames in the ghost animation.
 	 */
@@ -55,7 +61,7 @@ public class PacManSprites extends SpriteStore {
 		String resource = "/sprite/dead.png";
 
 		Sprite baseImage = loadSprite(resource);
-		AnimatedSprite animation = createAnimatedSprite(baseImage, 11,
+		AnimatedSprite animation = createAnimatedSprite(baseImage, PACMAN_DEATH_FRAMES,
 				ANIMATION_DELAY, false);
 		animation.setAnimating(false);
 
@@ -124,7 +130,7 @@ public class PacManSprites extends SpriteStore {
 	}
 
 	/**
-	 * Overloads the default sprite loading, negating the exception. This class
+	 * Overloads the default sprite loading, ignoring the exception. This class
 	 * assumes all sprites are provided, hence the exception will be thrown as a
 	 * {@link RuntimeException}.
 	 * 
@@ -135,7 +141,7 @@ public class PacManSprites extends SpriteStore {
 		try {
 			return super.loadSprite(resource);
 		} catch (IOException e) {
-			throw new RuntimeException("Unable to load sprite: " + resource, e);
+			throw new PacmanConfigurationException("Unable to load sprite: " + resource, e);
 		}
 	}
 }

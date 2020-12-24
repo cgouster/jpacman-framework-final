@@ -10,27 +10,37 @@ import nl.tudelft.jpacman.board.Unit;
 /**
  * A map of possible collisions and their handlers.
  * 
- * @author Michael de Jong <m.dejong-2@student.tudelft.nl>
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Michael de Jong
+ * @author Jeroen Roosen 
  */
 public class CollisionInteractionMap implements CollisionMap {
 
 	/**
 	 * The collection of collision handlers.
 	 */
-	private final Map<Class<? extends Unit>, Map<Class<? extends Unit>, CollisionHandler<?, ?>>> handlers;
+	private final Map<
+			Class<? extends Unit>,
+			Map<Class<? extends Unit>, CollisionHandler<?, ?>>
+	> handlers;
 
 	/**
 	 * Creates a new, empty collision map.
 	 */
 	public CollisionInteractionMap() {
-		this.handlers = new HashMap<Class<? extends Unit>, Map<Class<? extends Unit>, CollisionHandler<?, ?>>>();
+		this.handlers = new HashMap<
+				Class<? extends Unit>,
+				Map<Class<? extends Unit>, CollisionHandler<?, ?>>
+		>();
 	}
 
 	/**
 	 * Adds a two-way collision interaction to this collection, i.e. the
-	 * collision handler will be used for both <code>C1 -> C2</code> and
-	 * <code>C2 -> C1</code>.
+	 * collision handler will be used for both C1 versus C2 and C2 versus C1.
+	 * 
+	 * @param <C1>
+	 *            The collider type.
+	 * @param <C2>
+	 *            The collidee (unit that was moved into) type.
 	 * 
 	 * @param collider
 	 *            The collider type.
@@ -48,14 +58,19 @@ public class CollisionInteractionMap implements CollisionMap {
 	/**
 	 * Adds a collision interaction to this collection.
 	 * 
+	 * @param <C1>
+	 *            The collider type.
+	 * @param <C2>
+	 *            The collidee (unit that was moved into) type.
+	 * 
 	 * @param collider
 	 *            The collider type.
 	 * @param collidee
 	 *            The collidee type.
 	 * @param symetric
 	 *            <code>true</code> if this collision is used for both
-	 *            <code>C1 -> C2</code> and <code>C2 -> C1</code>,
-	 *            <code>false</code> if only for <code>C1 -> C2</code>.
+	 *            C1 against C2 and vice versa;
+	 *            <code>false</code> if only for C1 against C2.
 	 * @param handler
 	 *            The handler that handles the collision.
 	 */
@@ -95,6 +110,11 @@ public class CollisionInteractionMap implements CollisionMap {
 	/**
 	 * Handles the collision between two colliding parties, if a suitable
 	 * collision handler is listed.
+	 * 
+	 * @param <C1>
+	 *            The collider type.
+	 * @param <C2>
+	 *            The collidee (unit that was moved into) type.
 	 * 
 	 * @param collider
 	 *            The collider.
@@ -167,8 +187,7 @@ public class CollisionInteractionMap implements CollisionMap {
 		while (found.size() > index) {
 			Class<?> current = found.get(index);
 			Class<?> superClass = current.getSuperclass();
-			if (superClass != null
-					&& Unit.class.isAssignableFrom(superClass)) {
+			if (superClass != null && Unit.class.isAssignableFrom(superClass)) {
 				found.add((Class<? extends Unit>) superClass);
 			}
 			for (Class<?> classInterface : current.getInterfaces()) {
@@ -185,14 +204,14 @@ public class CollisionInteractionMap implements CollisionMap {
 	/**
 	 * Handles the collision between two colliding parties.
 	 * 
-	 * @author Michael de Jong <m.dejong-2@student.tudelft.nl>
+	 * @author Michael de Jong
 	 * 
 	 * @param <C1>
 	 *            The collider type.
 	 * @param <C2>
 	 *            The collidee type.
 	 */
-	public static interface CollisionHandler<C1 extends Unit, C2 extends Unit> {
+	public interface CollisionHandler<C1 extends Unit, C2 extends Unit> {
 
 		/**
 		 * Handles the collision between two colliding parties.
@@ -208,7 +227,7 @@ public class CollisionInteractionMap implements CollisionMap {
 	/**
 	 * An symmetrical copy of a collision hander.
 	 * 
-	 * @author Michael de Jong <m.dejong-2@student.tudelft.nl>
+	 * @author Michael de Jong
 	 * 
 	 * @param <C1>
 	 *            The collider type.

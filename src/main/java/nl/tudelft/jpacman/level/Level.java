@@ -9,10 +9,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.slf4j.LoggerFactory;
-
-import org.slf4j.Logger;
-
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
@@ -23,14 +19,9 @@ import nl.tudelft.jpacman.npc.NPC;
  * A level of Pac-Man. A level consists of the board with the players and the
  * AIs on it.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class Level {
-
-	/**
-	 * The log.
-	 */
-	private static final Logger LOG = LoggerFactory.getLogger(Level.class);
 
 	/**
 	 * The board of this level.
@@ -96,7 +87,7 @@ public class Level {
 	 * @param collisionMap
 	 *            The collection of collisions that should be handled.
 	 */
-	protected Level(Board b, List<NPC> ghosts, List<Square> startPositions,
+	public Level(Board b, List<NPC> ghosts, List<Square> startPositions,
 			CollisionMap collisionMap) {
 		assert b != null;
 		assert ghosts != null;
@@ -153,8 +144,6 @@ public class Level {
 		if (players.contains(p)) {
 			return;
 		}
-		LOG.info("Registered player and put him on position {}",
-				startSquareIndex);
 		players.add(p);
 		Square square = startSquares.get(startSquareIndex);
 		p.occupy(square);
@@ -213,7 +202,6 @@ public class Level {
 			if (isInProgress()) {
 				return;
 			}
-			LOG.info("Starting or resuming level.");
 			startNPCs();
 			inProgress = true;
 			updateObservers();
@@ -229,7 +217,6 @@ public class Level {
 			if (!isInProgress()) {
 				return;
 			}
-			LOG.info("Stopping level.");
 			stopNPCs();
 			inProgress = false;
 		}
@@ -273,13 +260,11 @@ public class Level {
 	 */
 	private void updateObservers() {
 		if (!isAnyPlayerAlive()) {
-			LOG.info("No players alive. Game over (lost)");
 			for (LevelObserver o : observers) {
 				o.levelLost();
 			}
 		}
 		if (remainingPellets() == 0) {
-			LOG.info("No pellets remaining. Game over (won).");
 			for (LevelObserver o : observers) {
 				o.levelWon();
 			}
@@ -325,9 +310,9 @@ public class Level {
 	/**
 	 * A task that moves an NPC and reschedules itself after it finished.
 	 * 
-	 * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+	 * @author Jeroen Roosen 
 	 */
-	private class NpcMoveTask implements Runnable {
+	private final class NpcMoveTask implements Runnable {
 
 		/**
 		 * The service executing the task.
@@ -366,9 +351,9 @@ public class Level {
 	/**
 	 * An observer that will be notified when the level is won or lost.
 	 * 
-	 * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+	 * @author Jeroen Roosen 
 	 */
-	public static interface LevelObserver {
+	public interface LevelObserver {
 
 		/**
 		 * The level has been won. Typically the level should be stopped when

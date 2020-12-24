@@ -1,16 +1,16 @@
 package nl.tudelft.jpacman.ui;
 
-import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import nl.tudelft.jpacman.game.Game;
+import nl.tudelft.jpacman.ui.ScorePanel.ScoreFormatter;
 
 /**
  * Builder for the JPac-Man UI.
  * 
- * @author Jeroen Roosen <j.roosen@student.tudelft.nl>
+ * @author Jeroen Roosen 
  */
 public class PacManUiBuilder {
 
@@ -38,6 +38,11 @@ public class PacManUiBuilder {
 	 * <code>true</code> iff this UI has the default buttons.
 	 */
 	private boolean defaultButtons;
+	
+	/**
+	 * Way to format the score.
+	 */
+	private ScoreFormatter scoreFormatter = null;
 
 	/**
 	 * Creates a new Pac-Man UI builder without any mapped keys or buttons.
@@ -51,6 +56,8 @@ public class PacManUiBuilder {
 	/**
 	 * Creates a new Pac-Man UI with the set keys and buttons.
 	 * 
+	 * @param game
+	 *            The game to build the UI for.
 	 * @return A new Pac-Man UI with the set keys and buttons.
 	 */
 	public PacManUI build(final Game game) {
@@ -60,7 +67,7 @@ public class PacManUiBuilder {
 			addStartButton(game);
 			addStopButton(game);
 		}
-		return new PacManUI(game, buttons, keyMappings);
+		return new PacManUI(game, buttons, keyMappings, scoreFormatter);
 	}
 
 	/**
@@ -103,7 +110,7 @@ public class PacManUiBuilder {
 	 * Adds a key listener to the UI.
 	 * 
 	 * @param keyCode
-	 *            The key code of the key as used by {@link KeyEvent}.
+	 *            The key code of the key as used by {@link java.awt.event.KeyEvent}.
 	 * @param action
 	 *            The action to perform when the key is pressed.
 	 * @return The builder.
@@ -127,7 +134,7 @@ public class PacManUiBuilder {
 	 */
 	public PacManUiBuilder addButton(String caption, Action action) {
 		assert caption != null;
-		assert caption.isEmpty() == false;
+		assert !caption.isEmpty();
 		assert action != null;
 
 		buttons.put(caption, action);
@@ -144,6 +151,19 @@ public class PacManUiBuilder {
 		defaultButtons = true;
 		buttons.put(START_CAPTION, null);
 		buttons.put(STOP_CAPTION, null);
+		return this;
+	}
+	
+	/**
+	 * Provide formatter for the score.
+	 * 
+	 * @param sf
+	 *         The score formatter to be used.
+	 * 
+	 * @return The builder.
+	 */
+	public PacManUiBuilder withScoreFormatter(ScoreFormatter sf) {
+		scoreFormatter = sf;
 		return this;
 	}
 }
