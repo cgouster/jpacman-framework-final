@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import nl.tudelft.jpacman.board.Direction;
-import nl.tudelft.jpacman.game.GhostColor;
+import nl.tudelft.jpacman.npc.ghost.GhostColor;
 
 /**
  * Sprite Store containing the classic Pac-Man sprites.
@@ -97,7 +97,8 @@ public class PacManSprites extends SpriteStore {
 	public Map<Direction, Sprite> getGhostSprite(GhostColor color) {
 		assert color != null;
 
-		String resource = "/sprite/ghost_" + color.name().toLowerCase() + ".png";
+		String resource = "/sprite/ghost_" + color.name().toLowerCase()
+				+ ".png";
 		return directionSprite(resource, GHOST_ANIMATION_FRAMES);
 	}
 
@@ -106,6 +107,13 @@ public class PacManSprites extends SpriteStore {
 	 */
 	public Sprite getWallSprite() {
 		return loadSprite("/sprite/wall.png");
+	}
+
+	/**
+	 * @return The sprite for the ground.
+	 */
+	public Sprite getGroundSprite() {
+		return loadSprite("/sprite/floor.png");
 	}
 
 	/**

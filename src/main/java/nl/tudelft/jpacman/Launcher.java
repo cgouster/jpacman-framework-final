@@ -1,17 +1,22 @@
 package nl.tudelft.jpacman;
 
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
-import nl.tudelft.jpacman.board.Board;
-import nl.tudelft.jpacman.board.Square;
-import nl.tudelft.jpacman.board.Unit;
-import nl.tudelft.jpacman.game.Player;
-import nl.tudelft.jpacman.game.SinglePlayerGame;
+import nl.tudelft.jpacman.board.BoardFactory;
+import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.game.Game;
+import nl.tudelft.jpacman.game.GameFactory;
 import nl.tudelft.jpacman.level.Level;
-import nl.tudelft.jpacman.sprite.Sprite;
+import nl.tudelft.jpacman.level.LevelFactory;
+import nl.tudelft.jpacman.level.MapParser;
+import nl.tudelft.jpacman.level.Player;
+import nl.tudelft.jpacman.level.PlayerFactory;
+import nl.tudelft.jpacman.npc.ghost.GhostFactory;
+import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.ui.Action;
+import nl.tudelft.jpacman.ui.PacManUI;
 import nl.tudelft.jpacman.ui.PacManUiBuilder;
 
 /**
@@ -21,81 +26,107 @@ import nl.tudelft.jpacman.ui.PacManUiBuilder;
  */
 public class Launcher {
 
-	public static void main(String[] args) {
+	private static final PacManSprites SPRITE_STORE = new PacManSprites();
 
-		final Board board = new Board() {
+	private PacManUI pacManUI;
+	private Game game;
 
-			@Override
-			public Square squareAt(int x, int y) {
-				return new Square() {
+	public Game getGame() {
+		return game;
+	}
 
-					@Override
-					public List<Unit> getOccupants() {
-						return new ArrayList<>();
-					}
-				};
-			}
+	public Game makeGame() {
+		GameFactory gf = getGameFactory();
+		Level level = makeLevel();
+		return gf.createSinglePlayerGame(level);
+	}
 
-			@Override
-			public int getWidth() {
-				return 10;
-			}
+	protected Level makeLevel() {
+		MapParser parser = getMapParser();
+		try {
+			return parser.parseMap(Launcher.class.getResourceAsStream("/board.txt"));
+		} catch (IOException e) {
+			throw new RuntimeException("Unable to create level.", e);
+		}
+	}
 
-			@Override
-			public int getHeight() {
-				return 10;
-			}
-		};
+	protected MapParser getMapParser() {
+		return new MapParser(getLevelFactory(), getBoardFactory());
+	}
 
-		Level level = new Level(board);
+	protected BoardFactory getBoardFactory() {
+		return new BoardFactory(getSpriteStore());
+	}
 
-		final Player player = new Player() {
-			
-			@Override
-			public int getScore() {
-				return 42;
-			}
+	protected PacManSprites getSpriteStore() {
+		return SPRITE_STORE;
+	}
 
-			@Override
-			public Sprite getSprite() {
-				return null;
-			}
-		};
+	protected LevelFactory getLevelFactory() {
+		return new LevelFactory(getSpriteStore(), getGhostFactory());
+	}
 
-		final List<Player> players = new ArrayList<>();
-		players.add(player);
+	protected GhostFactory getGhostFactory() {
+		return new GhostFactory(getSpriteStore());
+	}
 
-		final SinglePlayerGame game = new SinglePlayerGame(player, level);
+	protected GameFactory getGameFactory() {
+		return new GameFactory(getPlayerFactory());
+	}
 
-		new PacManUiBuilder().withDefaultButtons()
-		.addKey(KeyEvent.VK_UP, new Action() {
-			
-			@Override
-			public void doAction() {
-				game.moveUp();
-			}
-		})
-		.addKey(KeyEvent.VK_DOWN, new Action() {
-			
-			@Override
-			public void doAction() {
-				game.moveDown();
-			}
-		})
-		.addKey(KeyEvent.VK_LEFT, new Action() {
-			
-			@Override
-			public void doAction() {
-				game.moveLeft();
-			}
-		})
-		.addKey(KeyEvent.VK_RIGHT, new Action() {
-			
+	protected PlayerFactory getPlayerFactory() {
+		return new PlayerFactory(getSpriteStore());
+	}
+
+	protected void addSinglePlayerKeys(final PacManUiBuilder builder,
+			final Game game) {
+		List<Player> players = game.getPlayers();
+		if (players.isEmpty()) {
+			throw new IllegalArgumentException("Game has 0 players.");
+		}
+		final Player p1 = players.get(0);
+
+		builder.addKey(KeyEvent.VK_UP, new Action() {
+
 			@Override
 			public void doAction() {
-				game.moveRight();
+				game.move(p1, Direction.NORTH);
 			}
-		})
-		.build(game).start();
+		}).addKey(KeyEvent.VK_DOWN, new Action() {
+
+			@Override
+			public void doAction() {
+				game.move(p1, Direction.SOUTH);
+			}
+		}).addKey(KeyEvent.VK_LEFT, new Action() {
+
+			@Override
+			public void doAction() {
+				game.move(p1, Direction.WEST);
+			}
+		}).addKey(KeyEvent.VK_RIGHT, new Action() {
+
+			@Override
+			public void doAction() {
+				game.move(p1, Direction.EAST);
+			}
+		});
+
+	}
+
+	public void launch() {
+		game = makeGame();
+		PacManUiBuilder builder = new PacManUiBuilder().withDefaultButtons();
+		addSinglePlayerKeys(builder, game);
+		pacManUI = builder.build(game);
+		pacManUI.start();
+	}
+	
+	public void dispose() {
+		pacManUI.dispose();
+	}
+
+	public static void main(String[] args) throws IOException {
+		new Launcher().launch();
 	}
 }
